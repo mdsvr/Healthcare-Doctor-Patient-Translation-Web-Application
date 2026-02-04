@@ -1,0 +1,35 @@
+{
+    "name": "meditranslate-server",
+    "version": "1.0.0",
+    "description": "MediTranslate Backend API - Real-time healthcare translation service",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "keywords": [
+        "healthcare",
+        "translation",
+        "medical",
+        "ai",
+        "supabase"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "dependencies": {
+        "@mistralai/mistralai": "^1.3.7",
+        "@supabase/supabase-js": "^2.48.0",
+        "cors": "^2.8.5",
+        "deepl-node": "^1.14.0",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "multer": "^1.4.5-lts.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
