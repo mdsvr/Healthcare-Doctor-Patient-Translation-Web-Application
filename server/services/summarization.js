@@ -1,4 +1,4 @@
-import Mistral from '@mistralai/mistralai';
+import { Mistral } from '@mistralai/mistralai';
 import dotenv from 'dotenv';
 import { supabase } from '../db.js';
 
