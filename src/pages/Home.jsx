@@ -14,34 +14,30 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen p-8 md:p-12" style={{ background: 'var(--color-cream)' }}>
-            {/* Header - Minimalist */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-16 mt-8"
-            >
-                <div className="flex items-center justify-center mb-4">
-                    <Stethoscope className="w-8 h-8" style={{ color: 'var(--color-stone)' }} />
-                </div>
-                <h1 className="text-4xl font-light mb-3" style={{ color: 'var(--color-ink)', letterSpacing: '0.03em' }}>
-                    MediTranslate
-                </h1>
-                <p className="text-sm font-light" style={{ color: 'var(--color-stone)', letterSpacing: '0.05em' }}>
-                    MEDICAL TRANSLATION
-                </p>
-            </motion.div>
+        <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-cream)' }}>
+            <div className="w-full max-w-4xl mx-auto px-6 py-12">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center mb-12"
+                >
+                    <h1 className="text-4xl md:text-5xl font-light mb-3" style={{ color: 'var(--color-charcoal)' }}>
+                        MediTranslate
+                    </h1>
+                    <p className="text-base font-light tracking-wide" style={{ color: 'var(--color-stone)' }}>
+                        MEDICAL TRANSLATION
+                    </p>
+                </motion.div>
 
-            {/* Main Content */}
-            <div className="max-w-4xl mx-auto">
                 {/* Role Selection */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mb-12"
+                    className="mb-16"
                 >
-                    <p className="text-center mb-6 text-sm font-light" style={{ color: 'var(--color-stone)', letterSpacing: '0.05em' }}>
+                    <p className="text-sm font-light tracking-widest text-center mb-8" style={{ color: 'var(--color-stone)' }}>
                         SELECT YOUR ROLE
                     </p>
 
