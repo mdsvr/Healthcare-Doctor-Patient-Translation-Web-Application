@@ -2,17 +2,15 @@
 
 > Real-time translation system for doctor-patient communication
 
-**12-Hour Assignment Project**
-
 [Live Demo](https://healthcare-doctor-patient-translati-pearl.vercel.app) • [GitHub Repository](https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application)
 
 ---
 
 ## 📋 Project Overview
 
-MediTranslate is a web application designed to enable real-time communication between doctors and patients who speak different languages. Built under a 12-hour time constraint, it demonstrates core translation functionality with AI-powered features for medical contexts.
+MediTranslate is a web application designed to enable real-time communication between doctors and patients who speak different languages. It demonstrates core translation functionality with AI-powered features for medical contexts.
 
-**Key Challenge**: Build a production-ready translation interface with audio support, conversation logging, and AI summarization in a single day.
+**Key Challenge**: Build a production-ready translation interface with audio support, conversation logging, and AI summarization.
 
 ---
 
@@ -189,42 +187,6 @@ Visit `http://localhost:5173`
 
 ---
 
-## ⚠️ 12-Hour Project Constraints
-
-### What I Had to Skip
-
-- **Authentication** - No user login (anyone can access any conversation)
-- **Testing** - Zero automated tests due to time
-- **Mobile optimization** - Responsive but not thoroughly tested
-- **Error boundaries** - Basic error handling only
-- **Rate limiting** - No API rate limiting on backend
-- **Audio transcription** - Just stores audio, doesn't transcribe
-- **WebSockets** - Using REST instead of real-time sync
-- **Production hardening** - Minimal security measures
-
-### Technical Trade-offs Made
-
-1. **Client-side audio recording** - Simpler than server-side processing
-2. **REST instead of WebSockets** - Faster to implement
-3. **Direct API calls** - No caching or optimization layers
-4. **Single database** - No separate dev/prod environments initially
-5. **Minimal validation** - Basic input checks only
-
-### What I'd Add with More Time
-
-- User authentication (JWT or OAuth)
-- Audio transcription (Whisper API)
-- WebSocket for true real-time messages
-- Comprehensive error handling and retry logic
-- Unit and integration tests
-- PDF export of conversations
-- Admin dashboard for managing conversations
-- Multi-language UI (currently English only)
-- Better mobile responsive design
-- HIPAA compliance considerations
-
----
-
 ## 📦 Deployment
 
 ### Production Setup
@@ -268,19 +230,6 @@ Due to time constraints, no automated tests. Manual testing:
 
 ---
 
-## ⏱️ Time Allocation (Approximate)
-
-- **Hours 0-2**: Project setup, architecture planning, API research
-- **Hours 2-5**: Frontend UI (React components, routing, styling)
-- **Hours 5-8**: Backend API (Express routes, database integration)
-- **Hours 8-10**: DeepL and Mistral AI integration
-- **Hours 10-11**: Audio recording feature, search functionality
-- **Hours 11-12**: Testing, bug fixes, documentation
-
-**Total**: ~12 hours
-
----
-
 ## 🐛 Known Issues
 
 1. **Search highlighting** - Only exact matches highlighted
@@ -315,10 +264,9 @@ MIT License - See [LICENSE](./LICENSE)
 
 ---
 
-## 📞 Submission Details
+## 📞 Project Details
 
-**Assignment**: Healthcare Doctor-Patient Translation Web Application  
-**Time Constraint**: 12 hours  
+**Project**: Healthcare Doctor-Patient Translation Web Application  
 **Submitted By**: [Your Name]  
 **Date**: February 2026  
 **GitHub**: [https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application](https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application)  
@@ -335,4 +283,4 @@ MIT License - See [LICENSE](./LICENSE)
 
 ---
 
-**Note**: This is a time-constrained assignment project demonstrating rapid full-stack development and AI integration. Not production-ready for real medical use without significant security and compliance enhancements.
+**Built with ❤️ for better healthcare communication**
