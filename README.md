@@ -4,7 +4,7 @@
 
 **12-Hour Assignment Project**
 
-[Live Demo](https://your-app.vercel.app) • [GitHub Repository](https://github.com/yourusername/meditranslate)
+[Live Demo](https://healthcare-doctor-patient-translati-pearl.vercel.app) • [GitHub Repository](https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application)
 
 ---
 
@@ -229,10 +229,10 @@ Visit `http://localhost:5173`
 
 ### Production Setup
 
-- **Frontend**: Vercel (auto-deploy from GitHub)
-- **Backend**: Railway (Node.js hosting)
+- **Frontend**: Vercel - [https://healthcare-doctor-patient-translati-pearl.vercel.app](https://healthcare-doctor-patient-translati-pearl.vercel.app)
+- **Backend**: Render - [https://healthcare-doctor-patient-translation-ivad.onrender.com](https://healthcare-doctor-patient-translation-ivad.onrender.com)
 - **Database**: Supabase Cloud
-- **Live Demo**: [Link after deployment]
+- **GitHub**: [https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application](https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application)
 
 ### Deployment Steps
 
@@ -321,8 +321,8 @@ MIT License - See [LICENSE](./LICENSE)
 **Time Constraint**: 12 hours  
 **Submitted By**: [Your Name]  
 **Date**: February 2026  
-**GitHub**: [Repository Link]  
-**Live Demo**: [Deployment Link]
+**GitHub**: [https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application](https://github.com/mdsvr/Healthcare-Doctor-Patient-Translation-Web-Application)  
+**Live Demo**: [https://healthcare-doctor-patient-translati-pearl.vercel.app](https://healthcare-doctor-patient-translati-pearl.vercel.app)
 
 ---
 
