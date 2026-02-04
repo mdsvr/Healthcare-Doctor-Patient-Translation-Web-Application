@@ -28,9 +28,10 @@ export const translateText = async (text, targetLang, sourceLang = null) => {
     }
 
     try {
+        // DeepL API expects: translateText(text, sourceLang, targetLang, options)
         const result = await translator.translateText(
             text,
-            sourceLang,
+            null, // sourceLang - null for auto-detect
             targetLang,
             {
                 formality: 'default',
@@ -39,7 +40,7 @@ export const translateText = async (text, targetLang, sourceLang = null) => {
         );
 
         return {
-            translated_text: result.text,
+            translatedText: result.text, // Changed to match frontend expectation
             detected_language: result.detectedSourceLang,
         };
     } catch (error) {
