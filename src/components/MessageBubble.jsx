@@ -1,24 +1,40 @@
-import { motion } from 'framer-motion';
-import { User, Stethoscope, Play, Pause } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
+import { Volume2, VolumeX, User, Stethoscope, Languages, Loader } from 'lucide-react';
+import { translateText } from '../utils/api';
 
-const MessageBubble = ({ message, role }) => {
+const LANGUAGES = [
+    { code: 'EN', name: 'English' },
+    { code: 'ES', name: 'Spanish' },
+    { code: 'FR', name: 'French' },
+    { code: 'DE', name: 'German' },
+    { code: 'IT', name: 'Italian' },
+    { code: 'PT', name: 'Portuguese' },
+    { code: 'ZH', name: 'Chinese' },
+    { code: 'JA', name: 'Japanese' },
+    { code: 'KO', name: 'Korean' },
+    { code: 'AR', name: 'Arabic' },
+    { code: 'HI', name: 'Hindi' },
+    { code: 'RU', name: 'Russian' },
+];
+
+const MessageBubble = ({ message, isDoctor }) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const audioRef = useRef(null);
+    const [showOriginal, setShowOriginal] = useState(false);
+    const [showTranslateMenu, setShowTranslateMenu] = useState(false);
+    const [customTranslation, setCustomTranslation] = useState(null);
+    const [isTranslating, setIsTranslating] = useState(false);
 
-    const isSender = message.sender_role === role;
-    const isDoctor = message.sender_role === 'doctor';
+    const handlePlayAudio = () => {
+        if (!message.audio_url) return;
 
-    useEffect(() => {
-        return () => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current.currentTime = 0;
-            }
+        const audio = new Audio(message.audio_url);
+        setIsPlaying(true);
+
+        audio.onended = () => setIsPlaying(false);
+        audio.onerror = () => {
+            setIsPlaying(false);
+            alert('Failed to play audio');
         };
-    }, []);
-
-    const toggleAudio = () => {
 
         audio.play();
     };
@@ -200,11 +216,7 @@ const MessageBubble = ({ message, role }) => {
                     })}
                 </span>
             </div>
-                    )}
         </div>
-    )
-}
-        </motion.div >
     );
 };
 
