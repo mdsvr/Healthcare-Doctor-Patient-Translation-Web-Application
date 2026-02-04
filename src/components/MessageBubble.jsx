@@ -19,124 +19,192 @@ const MessageBubble = ({ message, role }) => {
     }, []);
 
     const toggleAudio = () => {
-        if (!audioRef.current) return;
 
-        if (isPlaying) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.play().catch(err => {
-                console.error('Audio playback failed:', err);
-                setIsPlaying(false);
+        audio.play();
+    };
+
+    const handleTranslateToLanguage = async (targetLang) => {
+        setIsTranslating(true);
+        try {
+            const textToTranslate = message.original_text || message.translated_text;
+            const result = await translateText(textToTranslate, targetLang);
+            setCustomTranslation({
+                text: result.translatedText,
+                language: LANGUAGES.find(l => l.code === targetLang)?.name || targetLang
             });
+            setShowOriginal(false);
+            setShowTranslateMenu(false);
+        } catch (error) {
+            console.error('Translation error:', error);
+            alert('Failed to translate message');
+        } finally {
+            setIsTranslating(false);
         }
-        setIsPlaying(!isPlaying);
     };
 
-    const formatTime = (timestamp) => {
-        if (!timestamp) return 'Just now';
-        const date = new Date(timestamp);
-        return date.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
+    const isOwnMessage = isDoctor
+        ? message.sender_role === 'doctor'
+        : message.sender_role === 'patient';
 
-    const senderBg = isDoctor ? 'var(--color-indigo)' : 'var(--color-sage)';
-    const avatarBg = isDoctor ? 'var(--color-indigo)' : 'var(--color-sage)';
+    const accentColor = message.sender_role === 'doctor'
+        ? 'var(--color-indigo)'
+        : 'var(--color-sage)';
+
+    const displayText = customTranslation
+        ? customTranslation.text
+        : (showOriginal ? message.original_text : message.translated_text);
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className={`flex items-start gap-3 mb-6 ${isSender ? 'justify-end' : 'justify-start'}`}
-        >
-            {!isSender && (
-                <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: avatarBg, boxShadow: 'var(--shadow-sm)' }}
-                >
-                    {isDoctor ? (
-                        <Stethoscope className="w-5 h-5 text-white" />
-                    ) : (
-                        <User className="w-5 h-5 text-white" />
-                    )}
-                </div>
-            )}
+        <div className={`flex items-start gap-3 ${isOwnMessage ? 'flex-row-reverse' : ''}`}>
+            {/* Avatar */}
+            <div
+                className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ background: accentColor }}
+            >
+                {message.sender_role === 'doctor' ? (
+                    <Stethoscope className="w-5 h-5 text-white" />
+                ) : (
+                    <User className="w-5 h-5 text-white" />
+                )}
+            </div>
 
-            <div className={`flex flex-col ${isSender ? 'items-end' : 'items-start'} max-w-md`}>
+            {/* Message Content */}
+            <div className={`flex-1 max-w-md ${isOwnMessage ? 'items-end' : 'items-start'} flex flex-col`}>
+                {/* Message Bubble */}
                 <div
-                    className="message-bubble"
+                    className="glass-panel relative"
                     style={{
-                        background: isSender ? senderBg : 'white',
-                        color: isSender ? 'white' : 'var(--color-charcoal)',
-                        border: isSender ? 'none' : '1px solid var(--color-warm-beige)',
+                        background: isOwnMessage ? 'white' : 'var(--color-sand)',
+                        borderLeft: `3px solid ${accentColor}`,
                     }}
                 >
-                    {!isSender && message.translated_text ? (
-                        <div>
-                            <p className="font-normal leading-relaxed">{message.translated_text}</p>
-                            {message.original_text && message.original_text !== message.translated_text && (
-                                <p className="text-sm mt-2 opacity-60 italic font-light">
-                                    Original: {message.original_text}
-                                </p>
+                    {/* Text Content */}
+                    <div className="space-y-2">
+                        {/* Display Text */}
+                        <p className="text-sm leading-relaxed" style={{ color: 'var(--color-charcoal)' }}>
+                            {displayText}
+                        </p>
+
+                        {/* Custom Translation Label */}
+                        {customTranslation && (
+                            <span className="text-xs font-light italic" style={{ color: 'var(--color-stone)' }}>
+                                Translated to {customTranslation.language}
+                            </span>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center gap-3 flex-wrap">
+                            {/* Show Original/Translation Toggle */}
+                            {message.original_text && message.translated_text && !customTranslation && (
+                                <button
+                                    onClick={() => setShowOriginal(!showOriginal)}
+                                    className="text-xs font-light hover:underline transition-all"
+                                    style={{ color: 'var(--color-stone)' }}
+                                >
+                                    {showOriginal ? 'Show translation' : 'Show original'}
+                                </button>
+                            )}
+
+                            {/* Translate Button */}
+                            <button
+                                onClick={() => setShowTranslateMenu(!showTranslateMenu)}
+                                className="flex items-center gap-1 text-xs font-light hover:underline transition-all"
+                                style={{ color: accentColor }}
+                                disabled={isTranslating}
+                            >
+                                {isTranslating ? (
+                                    <>
+                                        <Loader className="w-3 h-3 animate-spin" />
+                                        <span>Translating...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Languages className="w-3 h-3" />
+                                        <span>Translate to...</span>
+                                    </>
+                                )}
+                            </button>
+
+                            {/* Reset Translation */}
+                            {customTranslation && (
+                                <button
+                                    onClick={() => setCustomTranslation(null)}
+                                    className="text-xs font-light hover:underline transition-all"
+                                    style={{ color: 'var(--color-stone)' }}
+                                >
+                                    Reset
+                                </button>
                             )}
                         </div>
-                    ) : (
-                        <p className="leading-relaxed">{message.original_text || message.text || '(No text)'}</p>
-                    )}
 
-                    {message.audio_url && (
-                        <div
-                            className="mt-3 pt-3"
-                            style={{ borderTop: `1px solid ${isSender ? 'rgba(255,255,255,0.2)' : 'var(--color-warm-beige)'}` }}
-                        >
-                            <audio
-                                ref={audioRef}
-                                src={message.audio_url}
-                                onEnded={() => setIsPlaying(false)}
-                                onError={() => {
-                                    console.error('Audio loading failed');
-                                    setIsPlaying(false);
+                        {/* Translation Menu */}
+                        {showTranslateMenu && (
+                            <div
+                                className="mt-2 p-2 rounded-lg border grid grid-cols-2 gap-1"
+                                style={{
+                                    background: 'white',
+                                    borderColor: 'var(--color-warm-beige)',
+                                    maxHeight: '200px',
+                                    overflowY: 'auto'
                                 }}
-                                className="hidden"
-                                preload="metadata"
-                            />
+                            >
+                                {LANGUAGES.map(lang => (
+                                    <button
+                                        key={lang.code}
+                                        onClick={() => handleTranslateToLanguage(lang.code)}
+                                        className="text-xs p-2 rounded hover:bg-opacity-50 transition-all text-left"
+                                        style={{
+                                            background: 'var(--color-sand)',
+                                            color: 'var(--color-charcoal)'
+                                        }}
+                                    >
+                                        {lang.name}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Audio Player */}
+                    {message.audio_url && (
+                        <div className="mt-3 pt-3 border-t" style={{ borderColor: 'var(--color-warm-beige)' }}>
                             <button
-                                onClick={toggleAudio}
-                                className="flex items-center gap-2 text-sm transition-opacity"
-                                style={{ opacity: 0.8 }}
-                                aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
+                                onClick={handlePlayAudio}
+                                disabled={isPlaying}
+                                className="flex items-center gap-2 text-sm transition-colors"
+                                style={{
+                                    color: isPlaying ? 'var(--color-stone)' : accentColor,
+                                }}
                             >
                                 {isPlaying ? (
-                                    <Pause className="w-4 h-4" />
+                                    <>
+                                        <VolumeX className="w-4 h-4" />
+                                        <span className="font-light">Playing...</span>
+                                    </>
                                 ) : (
-                                    <Play className="w-4 h-4" />
+                                    <>
+                                        <Volume2 className="w-4 h-4" />
+                                        <span className="font-light">Play audio</span>
+                                    </>
                                 )}
-                                <span className="font-light">{isPlaying ? 'Pause' : 'Play'} Audio</span>
                             </button>
                         </div>
                     )}
                 </div>
 
-                <span className="text-xs font-light mt-1" style={{ color: 'var(--color-stone)' }}>
-                    {formatTime(message.created_at)}
+                {/* Timestamp */}
+                <span className="text-xs font-light mt-1 px-1" style={{ color: 'var(--color-stone)' }}>
+                    {new Date(message.created_at).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    })}
                 </span>
             </div>
-
-            {isSender && (
-                <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: avatarBg, boxShadow: 'var(--shadow-sm)' }}
-                >
-                    {isDoctor ? (
-                        <Stethoscope className="w-5 h-5 text-white" />
-                    ) : (
-                        <User className="w-5 h-5 text-white" />
                     )}
-                </div>
-            )}
-        </motion.div>
+        </div>
+    )
+}
+        </motion.div >
     );
 };
 
